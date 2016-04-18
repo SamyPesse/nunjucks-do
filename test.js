@@ -18,10 +18,3 @@ describe('nunjucks-do', function() {
     });
 
 });
-
-
-
-
-
-
-

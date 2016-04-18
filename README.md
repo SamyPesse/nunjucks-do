@@ -20,6 +20,6 @@ env.addExtension('DoExtension', new DoExtension());
 
 ```html
 {% do %}
-console.log('test');
+test = { hello: 'world' }
 {% enddo %}
 ```
