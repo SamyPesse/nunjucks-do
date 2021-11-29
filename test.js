@@ -17,4 +17,9 @@ describe('nunjucks-do', function() {
         }).should.equal('So Cool');
     });
 
+    it('should eval js in tag', function() {
+        env.renderString('{% do test = "So " + test %}{{ test }}', {
+            test: 'Cool'
+        }).should.equal('So Cool');
+    });
 });

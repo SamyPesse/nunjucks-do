@@ -23,3 +23,7 @@ env.addExtension('DoExtension', new DoExtension());
 test = { hello: 'world' }
 {% enddo %}
 ```
+or
+```html
+{% do test = { hello: 'world' } %}
+```

@@ -6,12 +6,22 @@ module.exports = function(nunjucks) {
 
         this.parse = function(parser, nodes, lexer) {
             var tok = parser.nextToken();
-            var args = parser.parseSignature(null, true);
-            parser.advanceAfterBlockEnd(tok.value);
-            var body = parser.parseUntilBlocks('enddo');
-            parser.advanceAfterBlockEnd();
+            var { index:start, lineno, colno } = parser.tokens;
 
-            return new nodes.CallExtension(this, 'run', args, [body]);
+            while (tok.type !== lexer.TOKEN_BLOCK_END) {
+                var end = parser.tokens.index;
+                tok = parser.nextToken();
+            }
+
+            var body, doString = parser.tokens.str.slice(start, end);
+            if (doString) {
+                body = new nodes.Output(lineno, colno, [ new nodes.TemplateData(lineno, colno, doString) ]);
+            } else {
+                body = parser.parseUntilBlocks('enddo');
+                parser.advanceAfterBlockEnd();
+            }
+
+            return new nodes.CallExtension(this, 'run', null, [body]);
         };
 
         this.run = function(context, body) {
